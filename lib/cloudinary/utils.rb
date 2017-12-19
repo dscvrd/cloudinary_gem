@@ -425,8 +425,8 @@ class Cloudinary::Utils
         source = "#{source}/#{url_suffix}"
       end
       if !format.blank?
-        source = "#{source}.#{format}"
-        source_to_sign = "#{source_to_sign}.#{format}"
+        source = "#{source.gsub(/(\.jpg)/, "")}.#{format}"
+        source_to_sign = "#{source_to_sign.gsub(/(\.jpg)/, "")}.#{format}"
       end
     end
     [source, source_to_sign]
@@ -457,7 +457,7 @@ class Cloudinary::Utils
     end
     if use_root_path
       if (resource_type.to_s == "image" && type.to_s == "upload") || (resource_type.to_s == "images" && type.blank?)
-        resource_type = nil
+        resource_type = "images"
         type = nil
       else
         raise(CloudinaryException, "Root path only supported for image/upload")
